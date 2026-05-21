@@ -12,6 +12,36 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NgopiDulz_frontend">
         <activity
+            android:name=".MasukActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DaftarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfilAdminActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminDashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EksplorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PesananActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EventActivity"
+            android:exported="false" />
+        <activity
+            android:name=".PromoActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TerpopulerActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

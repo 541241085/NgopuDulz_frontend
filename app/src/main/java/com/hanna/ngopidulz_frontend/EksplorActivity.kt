@@ -1,25 +1,30 @@
 package com.hanna.ngopidulz_frontend
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.LinearLayout
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
-class MainActivity : AppCompatActivity() {
+class EksplorActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_eksplor)
 
+        // Mengatur padding otomatis agar layout tidak tertutup oleh status bar / poni HP
         val rootLayout = findViewById<android.view.View>(android.R.id.content)
         ViewCompat.setOnApplyWindowInsetsListener(rootLayout) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            // Hanya memberikan padding samping untuk menghindari nabrak soft-navigation bar HP
-            v.setPadding(systemBars.left, 0, systemBars.right, 0)
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        // Logika untuk tombol kembali (Back Arrow)
+        val btnBack = findViewById<ImageView>(R.id.btn_back_eksplor)
+        btnBack.setOnClickListener {
+            finish() // Menutup halaman Eksplor dan kembali ke halaman sebelumnya
         }
     }
 }
