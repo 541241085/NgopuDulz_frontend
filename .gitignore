@@ -16,19 +16,17 @@ captures/
 *.apk
 output-metadata.json
 
-# IntelliJ
-*.iml
+# IntelliJ / Android Studio
 .idea/
-misc.xml
-deploymentTargetDropDown.xml
-render.experimental.xml
+*.iml
+*.hprof
 
 # Keystore files
 *.jks
 *.keystore
 
-# Google Services (e.g. APIs or Firebase)
+# Google Services
 google-services.json
 
-# Android Profiling
-*.hprof
+# OS files
+.DS_Store
