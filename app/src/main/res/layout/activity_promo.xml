@@ -184,10 +184,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="6dp"
-                            android:paintFlags="strike_thru_text"
-                            android:text="Rp 28.000"
-                            android:textColor="#8E8E8E"
-                            android:textSize="11sp" />
+                             />
                     </LinearLayout>
 
                     <TextView
@@ -265,10 +262,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="6dp"
-                            android:paintFlags="strike_thru_text"
-                            android:text="Rp 25.000"
-                            android:textColor="#8E8E8E"
-                            android:textSize="11sp" />
+                            />
                     </LinearLayout>
 
                     <TextView
@@ -348,10 +342,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paintFlags="strike_thru_text"
-                            android:text="Rp 18.000"
-                            android:textColor="#8E8E8E"
-                            android:textSize="10sp" />
+                            />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -430,10 +421,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paintFlags="strike_thru_text"
-                            android:text="Rp 22.000"
-                            android:textColor="#8E8E8E"
-                            android:textSize="10sp" />
+                            />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -456,7 +444,6 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_getLayoutDirection="inherit"
                     android:layout_marginStart="6dp"
                     android:layout_weight="1"
                     app:cardCornerRadius="16dp"
@@ -487,7 +474,6 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_getLayoutDirection="inherit"
                                 android:layout_alignParentEnd="true"
                                 android:layout_alignParentTop="true"
                                 android:layout_margin="4dp"
@@ -514,10 +500,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paintFlags="strike_thru_text"
-                            android:text="Rp 24.000"
-                            android:textColor="#8E8E8E"
-                            android:textSize="10sp" />
+                            />
 
                         <TextView
                             android:layout_width="match_parent"
