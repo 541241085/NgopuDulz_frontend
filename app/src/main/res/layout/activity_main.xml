@@ -50,7 +50,7 @@
                 <ImageView
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:src="@drawable/ic_notification"
+                    android:src="@drawable/ic_bell"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="#FFFFFF" />
@@ -92,7 +92,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:padding="10dp"
-                                android:src="@drawable/ic_search"
+                                android:src="@drawable/ic_search_black"
                                 app:tint="#FFFFFF" />
                         </androidx.cardview.widget.CardView>
                     </RelativeLayout>
@@ -109,14 +109,14 @@
 
                 <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center">
                     <androidx.cardview.widget.CardView android:layout_width="56dp" android:layout_height="56dp" app:cardCornerRadius="28dp" app:cardBackgroundColor="#F5F5F5" app:cardElevation="0dp">
-                        <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:padding="16dp" android:src="@drawable/ic_location" app:tint="#2B4C59"/>
+                        <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:padding="16dp" android:src="@drawable/ic_terdekat" app:tint="#2B4C59"/>
                     </androidx.cardview.widget.CardView>
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Terdekat" android:textColor="#2B4C59" android:textSize="12sp" android:layout_marginTop="8dp" android:textStyle="bold"/>
                 </LinearLayout>
 
                 <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical" android:gravity="center">
                     <androidx.cardview.widget.CardView android:layout_width="56dp" android:layout_height="56dp" app:cardCornerRadius="28dp" app:cardBackgroundColor="#F5F5F5" app:cardElevation="0dp">
-                        <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:padding="16dp" android:src="@drawable/ic_trending" app:tint="#2B4C59"/>
+                        <ImageView android:layout_width="match_parent" android:layout_height="match_parent" android:padding="16dp" android:src="@drawable/ic_terpopuler" app:tint="#2B4C59"/>
                     </androidx.cardview.widget.CardView>
                     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Terpopuler" android:textColor="#8E8E8E" android:textSize="12sp" android:layout_marginTop="8dp"/>
                 </LinearLayout>
@@ -417,12 +417,12 @@
             </LinearLayout>
 
             <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:orientation="vertical" android:gravity="center">
-                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_orders" app:tint="#8E8E8E"/>
+                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_nota" app:tint="#8E8E8E"/>
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Pesanan" android:textColor="#8E8E8E" android:textSize="10sp" android:layout_marginTop="2dp"/>
             </LinearLayout>
 
             <LinearLayout android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:orientation="vertical" android:gravity="center">
-                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_profile" app:tint="#8E8E8E"/>
+                <ImageView android:layout_width="24dp" android:layout_height="24dp" android:src="@drawable/ic_profil" app:tint="#8E8E8E"/>
                 <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Profil" android:textColor="#8E8E8E" android:textSize="10sp" android:layout_marginTop="2dp"/>
             </LinearLayout>
         </LinearLayout>

@@ -12,6 +12,21 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NgopiDulz_frontend">
         <activity
+            android:name=".OrderanSelesai"
+            android:exported="false" />
+        <activity
+            android:name=".DashboardKasir"
+            android:exported="false" />
+        <activity
+            android:name=".PesananDibuat"
+            android:exported="false" />
+        <activity
+            android:name=".ItemAntrian"
+            android:exported="false" />
+        <activity
+            android:name=".DetailActivityIceCaramell"
+            android:exported="false" />
+        <activity
             android:name=".MasukActivity"
             android:exported="false" />
         <activity

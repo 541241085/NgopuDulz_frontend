@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F9FA"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@android:color/white"
+        android:elevation="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp">
+
+        <ImageButton
+            android:id="@+id/ic_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Antrian Order"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@android:color/black" android:paddingHorizontal="8dp" android:text="#A01" android:textColor="@android:color/white" android:textStyle="bold" android:layout_marginBottom="8dp"/>
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
+                        <ImageView android:layout_width="60dp" android:layout_height="60dp" android:scaleType="centerCrop" android:src="@drawable/img_americano" />
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="12dp" android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Budi" android:textStyle="bold" android:textColor="@android:color/black"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Hot Americano" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Add-ons: Sugar Normal" android:textSize="12sp" android:textColor="#555555"/>
+                        </LinearLayout>
+                        <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:backgroundTint="@android:color/black" android:text="Buat" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@android:color/black" android:paddingHorizontal="8dp" android:text="#A02" android:textColor="@android:color/white" android:textStyle="bold" android:layout_marginBottom="8dp"/>
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
+                        <ImageView android:layout_width="60dp" android:layout_height="60dp" android:scaleType="centerCrop" android:src="@drawable/img_cafelatte" />
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="12dp" android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Siti" android:textStyle="bold" android:textColor="@android:color/black"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Cafe Latte" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Add-ons: Oat Milk" android:textSize="12sp" android:textColor="#555555"/>
+                        </LinearLayout>
+                        <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:backgroundTint="@android:color/black" android:text="Buat" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@android:color/black" android:paddingHorizontal="8dp" android:text="#A03" android:textColor="@android:color/white" android:textStyle="bold" android:layout_marginBottom="8dp"/>
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
+                        <ImageView android:layout_width="60dp" android:layout_height="60dp" android:scaleType="centerCrop" android:src="@drawable/img_chocolat" />
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="12dp" android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Andi" android:textStyle="bold" android:textColor="@android:color/black"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Pain au Chocolate" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Add-ons: Extra Whipped" android:textSize="12sp" android:textColor="#555555"/>
+                        </LinearLayout>
+                        <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:backgroundTint="@android:color/black" android:text="Buat" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp">
+                <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="@android:color/black" android:paddingHorizontal="8dp" android:text="#A04" android:textColor="@android:color/white" android:textStyle="bold" android:layout_marginBottom="8dp"/>
+                    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center_vertical" android:orientation="horizontal">
+                        <ImageView android:layout_width="60dp" android:layout_height="60dp" android:scaleType="centerCrop" android:src="@drawable/img_macchiato" />
+                        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="12dp" android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Hana" android:textStyle="bold" android:textColor="@android:color/black"/>
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ice Caramel Macchiato" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Add-ons: Caramel Sauce" android:textSize="12sp" android:textColor="#555555"/>
+                        </LinearLayout>
+                        <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:backgroundTint="@android:color/black" android:text="Buat" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
