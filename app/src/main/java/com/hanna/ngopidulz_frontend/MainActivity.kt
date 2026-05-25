@@ -3,23 +3,33 @@ package com.hanna.ngopidulz_frontend
 import android.content.Intent
 import android.os.Bundle
 import android.widget.LinearLayout
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        val rootLayout = findViewById<android.view.View>(android.R.id.content)
-        ViewCompat.setOnApplyWindowInsetsListener(rootLayout) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            // Hanya memberikan padding samping untuk menghindari nabrak soft-navigation bar HP
-            v.setPadding(systemBars.left, 0, systemBars.right, 0)
-            insets
+        // 1. Kenalkan tombol-tombol navigasi
+        val btnNavEksplor = findViewById<LinearLayout>(R.id.btn_nav_eksplor)
+        val btnNavPesanan = findViewById<LinearLayout>(R.id.btn_nav_pesanan)
+        val btnNavProfil = findViewById<LinearLayout>(R.id.btn_nav_profil)
+
+        // 2. Beri fungsi klik (Intent) ke masing-class Activity
+        btnNavEksplor.setOnClickListener {
+            startActivity(Intent(this, EksplorActivity::class.java))
         }
+
+        btnNavPesanan.setOnClickListener {
+            startActivity(Intent(this, PesananActivity::class.java))
+        }
+
+        btnNavProfil.setOnClickListener {
+            // Pastikan nama file profil-mu adalah ProfileActivity (sesuaikan jika namanya beda)
+            startActivity(Intent(this, ProfileActivity::class.java))
+        }
+
+        // Catatan: Tombol "Beranda" tidak perlu dikasih fungsi klik,
+        // karena saat ini kita SUDAH BERADA di halaman Beranda (MainActivity).
     }
 }
