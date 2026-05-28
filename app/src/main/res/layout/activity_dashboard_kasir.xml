@@ -18,8 +18,10 @@
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:text="Halo, Kasir!" android:textColor="#FFFFFF" android:textSize="14sp"/>
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="Pendapatan Hari Ini: Rp 1.250.000" android:textColor="#FF9800"
-            android:textSize="18sp" android:textStyle="bold"/>
+            android:textColor="#FF9800"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:id="@+id/tv_pendapatan_hari_ini/"
     </LinearLayout>
 
     <RadioGroup

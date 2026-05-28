@@ -29,19 +29,31 @@
             android:src="@drawable/img_macchiato" />
 
         <TextView
+            android:id="@+id/tv_detail_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Ice Caramel Macchiato"
+            android:text="Nama Kopi"
             android:textColor="@android:color/black"
             android:textSize="24sp"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_detail_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Kopi susu signature dengan sirup karamel manis dan saus karamel di atasnya."
+            android:layout_marginTop="4dp"
+            android:text="Rp 0"
+            android:textColor="#E5A93C"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_detail_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Deskripsi Kopi..."
             android:textColor="@android:color/darker_gray" />
 
         <LinearLayout

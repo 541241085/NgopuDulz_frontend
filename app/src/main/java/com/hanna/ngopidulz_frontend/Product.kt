@@ -3,9 +3,10 @@ package com.hanna.ngopidulz_frontend
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-// Tambahkan Serializable agar datanya bisa dilempar ke halaman Detail nanti
 data class Product(
-    @SerializedName("id") val id: Int? = null,
+    // Ubah dari Int? menjadi String?
+    @SerializedName("id") val id: String? = null,
+
     @SerializedName("name") val name: String? = null,
     @SerializedName("price") val price: Int? = null,
     @SerializedName("category") val category: String? = null,

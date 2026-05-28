@@ -20,7 +20,7 @@
             android:name=".DashboardKasir"
             android:exported="false" />
         <activity
-            android:name=".PesananDibuat"
+            android:name=".PesananActivity"
             android:exported="false" />
         <activity
             android:name=".ItemAntrian"
@@ -44,7 +44,7 @@
             android:name=".EksplorActivity"
             android:exported="false" />
         <activity
-            android:name=".PesananActivity"
+            android:name=".PaymentActivity"
             android:exported="false" />
         <activity
             android:name=".ProfileActivity"

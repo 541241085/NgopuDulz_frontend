@@ -1,9 +1,13 @@
 package com.hanna.ngopidulz_frontend
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
@@ -11,7 +15,6 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class EksplorActivity : AppCompatActivity() {
-
     private lateinit var rvProducts: RecyclerView
     private lateinit var productAdapter: ProductAdapter
 
@@ -26,14 +29,28 @@ class EksplorActivity : AppCompatActivity() {
         rvProducts.layoutManager = GridLayoutManager(this, 2)
         // Agar scrollnya mulus di dalam NestedScrollView
         rvProducts.isNestedScrollingEnabled = false
-
         btnBack.setOnClickListener {
             finish()
-        }
+        }// Panggil ID angka keranjangnya
+        // Panggil ID angka keranjangnya
 
         fetchProducts()
+        val tvCartBadge = findViewById<TextView>(R.id.tv_cart_badge)
+        val cart = findViewById<CardView>(R.id.btn_cart_circle)
+        tvCartBadge.text = "0"
+        cart.setOnClickListener {
+            startActivity(Intent(this, PesananActivity::class.java))
+        }
     }
+    // Fungsi ini akan otomatis dipanggil setiap kali halaman Eksplor terbuka/muncul di layar
+    override fun onResume() {
+        super.onResume()
+        val tvCartBadge = findViewById<TextView>(R.id.tv_cart_badge)
 
+        // 👇 Ambil jumlah dari fungsi baru di CartHelper 👇
+        val totalQty = CartHelper.getTotalQuantity()
+        tvCartBadge.text = totalQty.toString()
+    }
     private fun fetchProducts() {
         val sessionManager = SessionManager(this)
         val token = sessionManager.fetchAuthToken()
