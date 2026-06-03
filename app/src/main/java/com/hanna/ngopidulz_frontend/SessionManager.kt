@@ -31,4 +31,14 @@ class SessionManager(context: Context) {
         editor.clear()
         editor.apply()
     }
+    fun saveRole(role: String) {
+        val editor = prefs.edit()
+        editor.putString("USER_ROLE", role)
+        editor.apply()
+    }
+
+    // 👇 FUNGSI BARU UNTUK MENGAMBIL ROLE 👇
+    fun fetchRole(): String? {
+        return prefs.getString("USER_ROLE", "customer") // Defaultnya 'customer' kalau gak ketemu
+    }
 }

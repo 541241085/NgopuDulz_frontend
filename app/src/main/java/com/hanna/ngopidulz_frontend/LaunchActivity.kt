@@ -15,20 +15,28 @@ class LaunchActivity : AppCompatActivity() {
         val sessionManager = SessionManager(this)
 
         // Loading 2 detik saat buka aplikasi
+        // Contoh kalau pakai delay Handler (sesuaikan dengan kodingan aslimu)
         Handler(Looper.getMainLooper()).postDelayed({
 
-            // CEK OTOMATIS: Udah pernah login atau belum?
-            if (sessionManager.isLoggedIn()) {
-                // Kalo udah, langsung lempar ke MainActivity
-                startActivity(Intent(this, MainActivity::class.java))
-            } else {
-                // Kalo belum, lempar ke MasukActivity (Login)
-                startActivity(Intent(this, MasukActivity::class.java))
-            }
+            val token = sessionManager.fetchAuthToken()
 
-            // Hancurkan halaman loading ini
+            if (token != null) {
+                // KALAU SUDAH LOGIN, CEK ROLENYA
+                val role = sessionManager.fetchRole() ?: "customer"
+
+                val intent = when (role.lowercase()) {
+                    "admin" -> Intent(this, AdminDashboardActivity::class.java)
+                    "kasir" -> Intent(this, DashboardKasir::class.java)
+                    else -> Intent(this, MainActivity::class.java)
+                }
+                startActivity(intent)
+
+            } else {
+                // KALAU BELUM LOGIN, LEMPAR KE HALAMAN DAFTAR / MASUK
+                startActivity(Intent(this, DaftarActivity::class.java)) // Sesuaikan
+            }
             finish()
 
-        }, 2000)
+        }, 2000) // Waktu tunda splash screen
     }
 }

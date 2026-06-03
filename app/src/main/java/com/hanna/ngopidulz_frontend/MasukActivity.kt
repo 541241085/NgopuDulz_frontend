@@ -47,34 +47,40 @@ class MasukActivity : AppCompatActivity() {
             ApiConfig.getApiService().loginUser(email, password).enqueue(object : Callback<LoginResponse> {
                 override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                     if (response.isSuccessful && response.body() != null) {
-                        // Kalau sukses, ambil token dari Laravel
                         val token = response.body()?.token
+                        val role = response.body()?.user?.role ?: "customer"
 
                         if (token != null) {
-                            // 1. Simpan Token ke HP
+                            // 1. Simpan Token & Role ke Memori
                             sessionManager.saveAuthToken(token)
+                            sessionManager.saveRole(role)
 
-                            Toast.makeText(this@MasukActivity, "Login Berhasil!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this@MasukActivity, "Login Berhasil sebagai: $role", Toast.LENGTH_SHORT).show()
 
-                            // 2. Lempar user ke halaman Main Activity
-                            val intent = Intent(this@MasukActivity, MainActivity::class.java)
-                            // Bersihkan tumpukan halaman biar nggak bisa di-back ke halaman login lagi
-                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            // 2. Logika Pindah Halaman
+                            val intent = when (role.lowercase()) {
+                                "admin" -> Intent(this@MasukActivity, AdminDashboardActivity::class.java)
+                                "kasir" -> Intent(this@MasukActivity, DashboardKasir::class.java)
+                                else -> Intent(this@MasukActivity, MainActivity::class.java)
+                            }
                             startActivity(intent)
+                            finish()
                         } else {
-                            Toast.makeText(this@MasukActivity, "Token tidak ditemukan!", Toast.LENGTH_SHORT).show()
+                            // JALUR JIKA LARAVEL SUKSES TAPI TOKEN KOSONG
+                            Toast.makeText(this@MasukActivity, "Aneh, respon 200 OK tapi Token Kosong!", Toast.LENGTH_LONG).show()
                         }
                     } else {
-                        // Kalau salah password atau email belum terdaftar
-                        Toast.makeText(this@MasukActivity, "Login Gagal! Cek email & password", Toast.LENGTH_SHORT).show()
+                        // 🔥 INI PENYELAMATNYA: NAMPILIN ERROR DARI LARAVEL 🔥
+                        val errorCode = response.code()
+                        Toast.makeText(this@MasukActivity, "Gagal Login! Kode Error: $errorCode", Toast.LENGTH_LONG).show()
                     }
                 }
 
                 override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                    // Kalau Laravel mati, XAMPP mati, atau tidak ada internet
-                    Toast.makeText(this@MasukActivity, "Error Koneksi: ${t.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@MasukActivity, "Server Mati / Error: ${t.message}", Toast.LENGTH_LONG).show()
                 }
             })
         }
+
     }
 }

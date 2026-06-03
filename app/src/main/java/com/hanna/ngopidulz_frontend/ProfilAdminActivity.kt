@@ -11,7 +11,7 @@ class ProfilAdminActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_profil_admin)
+        setContentView(R.layout.fragment_admin_profile)
 
         // Penanganan padding otomatis sistem android biar gak nabrak status bar HP
         val rootLayout = findViewById<android.view.View>(android.R.id.content)

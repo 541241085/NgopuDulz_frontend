@@ -6,23 +6,39 @@
     android:layout_height="match_parent"
     android:background="#F5F5F5">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/header_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#000000"
-        android:orientation="vertical"
         android:padding="20dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="Halo, Kasir!" android:textColor="#FFFFFF" android:textSize="14sp"/>
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:textColor="#FF9800"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:id="@+id/tv_pendapatan_hari_ini/"
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true">
+
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Halo, Kasir!" android:textColor="#FFFFFF" android:textSize="14sp"/>
+
+            <TextView android:id="@+id/tv_pendapatan_hari_ini" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Pendapatan Hari Ini: Rp 0" android:textColor="#FF9800"
+                android:textSize="18sp" android:textStyle="bold"/>
+        </LinearLayout>
+
+        <!-- 👇 INI DIA TOMBOL LOGOUT-NYA 👇 -->
+        <ImageView
+            android:id="@+id/btn_logout_kasir"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@android:drawable/ic_lock_power_off"
+            app:tint="#FF5252" />
+    </RelativeLayout>
 
     <RadioGroup
         android:id="@+id/rg_status"
@@ -69,5 +85,6 @@
             android:text="+ PESANAN BARU"
             android:backgroundTint="#000000"/>
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

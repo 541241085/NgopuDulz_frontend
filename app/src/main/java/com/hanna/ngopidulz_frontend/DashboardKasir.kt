@@ -1,6 +1,8 @@
 package com.hanna.ngopidulz_frontend
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.TextView
@@ -48,6 +50,22 @@ class DashboardKasir : AppCompatActivity() {
 
         // Panggil data pertama kali buka
         fetchOrdersFromLaravel()
+        val btnLogout = findViewById<ImageView>(R.id.btn_logout_kasir)
+        btnLogout.setOnClickListener {
+            // 1. Hapus memori Token & Role
+            SessionManager(this).clearSession()
+
+            Toast.makeText(this, "Berhasil Logout!", Toast.LENGTH_SHORT).show()
+
+            // 2. Lempar balik ke halaman Login (MasukActivity)
+            val intent = Intent(this, MasukActivity::class.java) // Sesuaikan nama file Login-mu
+
+            // 3. Jurus pamungkas: Hapus riwayat halaman biar user gak bisa klik tombol "Back" di HP
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun fetchOrdersFromLaravel() {
@@ -62,7 +80,7 @@ class DashboardKasir : AppCompatActivity() {
                 }
             }
             override fun onFailure(call: Call<CashierOrderResponse>, t: Throwable) {
-                Toast.makeText(this@DashboardKasirActivity, "Error koneksi", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@DashboardKasir, "Error koneksi", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -106,13 +124,15 @@ class DashboardKasir : AppCompatActivity() {
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onResponse(call: Call<GeneralResponse>, response: Response<GeneralResponse>) {
                     if (response.isSuccessful) {
-                        Toast.makeText(this@DashboardKasirActivity, "Status jadi $nextStatus", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@DashboardKasir, "Status jadi $nextStatus", Toast.LENGTH_SHORT).show()
                         fetchOrdersFromLaravel() // Refresh data terbaru
                     }
                 }
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
-                    Toast.makeText(this@DashboardKasirActivity, "Gagal update status", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@DashboardKasir, "Gagal update status", Toast.LENGTH_SHORT).show()
                 }
             })
+
     }
+
 }
