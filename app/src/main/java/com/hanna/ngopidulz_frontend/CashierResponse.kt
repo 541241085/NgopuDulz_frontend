@@ -21,7 +21,9 @@ data class CashierOrderResponse(
 
 // Cetakan detail 1 pesanan di layar Kasir
 data class CashierOrder(
-    @SerializedName("_id") val id: String, // Sesuaikan dengan MongoDB
+    // 👇 Tambahkan alternate biar dia bisa nangkep 'id' atau '_id', plus kasih tanda tanya (?)
+    @SerializedName("id", alternate = ["_id"]) val id: String?,
+
     @SerializedName("total_price") val totalPrice: Int,
     val status: String,
     @SerializedName("payment_status") val paymentStatus: String,

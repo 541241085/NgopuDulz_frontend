@@ -51,4 +51,9 @@ interface ApiService {
         @Path("id") orderId: String,
         @Body request: StatusRequest
     ): Call<GeneralResponse>
+    // Tambahkan ini di dalam interface ApiService
+    @GET("customer/orders") // Sesuaikan dengan rute API pelanggan di Laravel-mu
+    fun getCustomerOrders(
+        @Header("Authorization") token: String
+    ): Call<CashierOrderResponse>
 }

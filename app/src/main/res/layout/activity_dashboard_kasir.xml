@@ -47,9 +47,30 @@
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
         android:gravity="center"
+        android:weightSum="3"
         app:layout_constraintTop_toBottomOf="@id/header_layout">
-        <RadioButton android:id="@+id/rb_pending" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Antrian (5)" android:layout_marginEnd="20dp" android:checked="true"/>
-        <RadioButton android:id="@+id/rb_done" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Selesai (12)"/>
+
+        <RadioButton
+            android:id="@+id/rb_antrian"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Antrian (0)"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/rb_proses"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Proses (0)"/>
+
+        <RadioButton
+            android:id="@+id/rb_selesai"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Selesai (0)"/>
     </RadioGroup>
 
     <androidx.recyclerview.widget.RecyclerView

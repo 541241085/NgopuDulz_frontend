@@ -27,8 +27,10 @@ class CashierOrderAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val order = orderList[position]
-
-        holder.tvOrderId.text = "#${order.id.takeLast(5).uppercase()}" // Ambil 5 huruf terakhir ID biar pendek
+// 🔥 KODINGAN ANTI CRASH 🔥
+        // Kalau ID-nya ada, ambil 5 huruf terakhir. Kalau kosong (null), pakai "00000"
+        val safeId = order.id ?: "00000"
+        holder.tvOrderId.text = "#${safeId.takeLast(5).uppercase()}"// Ambil 5 huruf terakhir ID biar pendek
         holder.tvCustomerName.text = order.user?.name ?: "Pelanggan"
 
         // Gabungkan semua item kopi jadi 1 teks (Contoh: "2x Americano \n 1x Latte")

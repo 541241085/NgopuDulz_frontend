@@ -43,6 +43,7 @@
         <activity
             android:name=".EksplorActivity"
             android:exported="false" />
+        <activity android:name=".RiwayatPesananActivity" />
         <activity
             android:name=".PaymentActivity"
             android:exported="false" />

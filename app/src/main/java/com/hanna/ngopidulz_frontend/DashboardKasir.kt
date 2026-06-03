@@ -20,49 +20,46 @@ class DashboardKasir : AppCompatActivity() {
 
     private lateinit var rvKasir: RecyclerView
     private lateinit var adapter: CashierOrderAdapter
-    private var allOrders: List<CashierOrder> = emptyList() // Nyimpen semua pesanan dari Laravel
+    private var allOrders: List<CashierOrder> = emptyList()
 
     private lateinit var tvPendapatan: TextView
     private lateinit var rgStatus: RadioGroup
-    private lateinit var rbPending: RadioButton
-    private lateinit var rbDone: RadioButton
+
+    // 👇 1. UPDATE VARIABEL 3 TOMBOL 👇
+    private lateinit var rbAntrian: RadioButton
+    private lateinit var rbProses: RadioButton
+    private lateinit var rbSelesai: RadioButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard_kasir)
 
-        tvPendapatan = findViewById(R.id.tv_pendapatan_hari_ini) // Pastikan id ini ada di xml header-mu
+        tvPendapatan = findViewById(R.id.tv_pendapatan_hari_ini)
         rgStatus = findViewById(R.id.rg_status)
-        rbPending = findViewById(R.id.rb_pending)
-        rbDone = findViewById(R.id.rb_done)
+
+        // 👇 2. SAMBUNGKAN KE ID XML YANG BARU 👇
+        rbAntrian = findViewById(R.id.rb_antrian)
+        rbProses = findViewById(R.id.rb_proses)
+        rbSelesai = findViewById(R.id.rb_selesai)
         rvKasir = findViewById(R.id.rv_kasir_antrian)
 
         rvKasir.layoutManager = LinearLayoutManager(this)
 
-        // Setup Adapter dan klik tombol
         adapter = CashierOrderAdapter(emptyList()) { clickedOrder ->
             changeOrderStatus(clickedOrder)
         }
         rvKasir.adapter = adapter
 
-        // Kalau tab RadioButton dipindah, filter ulang tampilannya
         rgStatus.setOnCheckedChangeListener { _, _ -> filterAndDisplayData() }
 
-        // Panggil data pertama kali buka
         fetchOrdersFromLaravel()
+
         val btnLogout = findViewById<ImageView>(R.id.btn_logout_kasir)
         btnLogout.setOnClickListener {
-            // 1. Hapus memori Token & Role
             SessionManager(this).clearSession()
-
             Toast.makeText(this, "Berhasil Logout!", Toast.LENGTH_SHORT).show()
-
-            // 2. Lempar balik ke halaman Login (MasukActivity)
-            val intent = Intent(this, MasukActivity::class.java) // Sesuaikan nama file Login-mu
-
-            // 3. Jurus pamungkas: Hapus riwayat halaman biar user gak bisa klik tombol "Back" di HP
+            val intent = Intent(this, MasukActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-
             startActivity(intent)
             finish()
         }
@@ -85,28 +82,41 @@ class DashboardKasir : AppCompatActivity() {
         })
     }
 
+    // 👇 3. LOGIKA FILTER & PENGHITUNG BARU 👇
     private fun filterAndDisplayData() {
-        val filteredList = if (rbPending.isChecked) {
-            // Tab Antrian: Tampilkan yang statusnya pending atau diproses
-            allOrders.filter { it.status == "pending" || it.status == "diproses" }
-        } else {
-            // Tab Selesai: Tampilkan yang statusnya selesai
-            allOrders.filter { it.status == "selesai" }
+        // Tentukan data mana yang masuk ke RecyclerView
+        val filteredList = when {
+            rbAntrian.isChecked -> {
+                // Tab Antrian: Cuma yang status "pending" DAN "dibayar" (lunas Midtrans)
+                // Sementara diloloskan walaupun "pending" biar kelihatan pas ngetes di localhost
+                allOrders.filter { it.status.lowercase() == "pending" }
+            }
+            rbProses.isChecked -> {
+                // Tab Proses: Status "diproses"
+                allOrders.filter { it.status.lowercase() == "diproses" }
+            }
+            rbSelesai.isChecked -> {
+                // Tab Selesai: Status "selesai"
+                allOrders.filter { it.status.lowercase() == "selesai" }
+            }
+            else -> emptyList()
         }
 
         adapter.updateData(filteredList)
 
-        // Update angka di tombol Radio
-        val countPending = allOrders.count { it.status == "pending" || it.status == "diproses" }
-        val countDone = allOrders.count { it.status == "selesai" }
-        rbPending.text = "Antrian ($countPending)"
-        rbDone.text = "Selesai ($countDone)"
+        // Hitung jumlah masing-masing untuk di-update ke teks tombolnya
+        val countAntrian = allOrders.count { it.status.lowercase() == "pending" && it.paymentStatus.lowercase() == "dibayar" }
+        val countProses = allOrders.count { it.status.lowercase() == "diproses" }
+        val countSelesai = allOrders.count { it.status.lowercase() == "selesai" }
+
+        rbAntrian.text = "Antrian ($countAntrian)"
+        rbProses.text = "Proses ($countProses)"
+        rbSelesai.text = "Selesai ($countSelesai)"
     }
 
     private fun calculateRevenue() {
-        // Hitung pendapatan (hanya dari pesanan yang LUNAS dan SELESAI)
         val totalPendapatan = allOrders
-            .filter { it.paymentStatus == "dibayar" && it.status == "selesai" }
+            .filter { it.paymentStatus.lowercase() == "dibayar" && it.status.lowercase() == "selesai" }
             .sumOf { it.totalPrice }
 
         val formatRp = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
@@ -116,23 +126,21 @@ class DashboardKasir : AppCompatActivity() {
     private fun changeOrderStatus(order: CashierOrder) {
         val token = SessionManager(this).fetchAuthToken() ?: return
 
-        // Logika urutan status: pending -> diproses -> selesai
-        val nextStatus = if (order.status == "pending") "diproses" else "selesai"
+        // Logika perpindahan status: pending -> diproses -> selesai
+        val nextStatus = if (order.status.lowercase() == "pending") "diproses" else "selesai"
         val requestBody = StatusRequest(status = nextStatus)
 
-        ApiConfig.getApiService().updateOrderStatus("Bearer $token", order.id, requestBody)
+        ApiConfig.getApiService().updateOrderStatus("Bearer $token", order.id ?: "" , requestBody)
             .enqueue(object : Callback<GeneralResponse> {
                 override fun onResponse(call: Call<GeneralResponse>, response: Response<GeneralResponse>) {
                     if (response.isSuccessful) {
-                        Toast.makeText(this@DashboardKasir, "Status jadi $nextStatus", Toast.LENGTH_SHORT).show()
-                        fetchOrdersFromLaravel() // Refresh data terbaru
+                        Toast.makeText(this@DashboardKasir, "Status pindah ke $nextStatus", Toast.LENGTH_SHORT).show()
+                        fetchOrdersFromLaravel() // Refresh data otomatis biar pindah tab
                     }
                 }
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
                     Toast.makeText(this@DashboardKasir, "Gagal update status", Toast.LENGTH_SHORT).show()
                 }
             })
-
     }
-
 }

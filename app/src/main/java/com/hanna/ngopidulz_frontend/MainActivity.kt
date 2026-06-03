@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnNavPesanan.setOnClickListener {
-            startActivity(Intent(this, PesananActivity::class.java))
+            startActivity(Intent(this, RiwayatPesananActivity   ::class.java))
         }
 
         btnNavProfil.setOnClickListener {
