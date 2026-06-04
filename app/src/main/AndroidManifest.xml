@@ -44,6 +44,8 @@
             android:name=".EksplorActivity"
             android:exported="false" />
         <activity android:name=".RiwayatPesananActivity" />
+        <activity android:name=".FormProductActivity" android:exported="false" />
+        <activity android:name=".DetailProductAdminActivity" android:exported="false" />
         <activity
             android:name=".PaymentActivity"
             android:exported="false" />

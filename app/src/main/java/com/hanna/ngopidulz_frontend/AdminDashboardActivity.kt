@@ -24,8 +24,13 @@ class AdminDashboardActivity : AppCompatActivity() {
                     loadFragment(AdminHomeFragment())
                     true
                 }
+                // 👇 1. TAMBAHKAN TAB KHUSUS PRODUK DI SINI 👇
+                R.id.nav_products -> {
+                    loadFragment(AdminProductsFragment()) // Fragment list produk CRUD
+                    true
+                }
                 R.id.nav_users -> {
-                    loadFragment(AdminUsersFragment())
+                    loadFragment(AdminUsersFragment()) // Fragment list kelola akun (suspend)
                     true
                 }
                 R.id.nav_profile -> {

@@ -41,4 +41,9 @@ class SessionManager(context: Context) {
     fun fetchRole(): String? {
         return prefs.getString("USER_ROLE", "customer") // Defaultnya 'customer' kalau gak ketemu
     }
+    fun clearAuthToken() {
+        val editor = prefs.edit() // ⚠️ Sesuaikan kata 'prefs' dengan nama SharedPreferences di filemu (bisa 'sharedPreferences' atau 'pref')
+        editor.clear() // Menghapus semua session termasuk token login
+        editor.apply()
+    }
 }

@@ -45,8 +45,9 @@ class DashboardKasir : AppCompatActivity() {
 
         rvKasir.layoutManager = LinearLayoutManager(this)
 
-        adapter = CashierOrderAdapter(emptyList()) { clickedOrder ->
-            changeOrderStatus(clickedOrder)
+        adapter = CashierOrderAdapter(emptyList()) { order, statusBaru ->
+            // Panggil fungsi ubah status kamu dengan melempar statusBaru-nya!
+            eksekusiUbahStatusPesanan(order.id, statusBaru)
         }
         rvKasir.adapter = adapter
 
@@ -87,8 +88,7 @@ class DashboardKasir : AppCompatActivity() {
         // Tentukan data mana yang masuk ke RecyclerView
         val filteredList = when {
             rbAntrian.isChecked -> {
-                // Tab Antrian: Cuma yang status "pending" DAN "dibayar" (lunas Midtrans)
-                // Sementara diloloskan walaupun "pending" biar kelihatan pas ngetes di localhost
+                // Kasir bisa langsung lihat pesanan baru masuk tanpa nunggu webhook internet
                 allOrders.filter { it.status.lowercase() == "pending" }
             }
             rbProses.isChecked -> {
@@ -115,8 +115,9 @@ class DashboardKasir : AppCompatActivity() {
     }
 
     private fun calculateRevenue() {
+        // 🔥 OTOMATIS: Semua yang statusnya "selesai" langsung dihitung sebagai pendapatan lunas 🔥
         val totalPendapatan = allOrders
-            .filter { it.paymentStatus.lowercase() == "dibayar" && it.status.lowercase() == "selesai" }
+            .filter { it.status.lowercase() == "selesai" }
             .sumOf { it.totalPrice }
 
         val formatRp = NumberFormat.getCurrencyInstance(Locale("in", "ID"))
@@ -140,6 +141,37 @@ class DashboardKasir : AppCompatActivity() {
                 }
                 override fun onFailure(call: Call<GeneralResponse>, t: Throwable) {
                     Toast.makeText(this@DashboardKasir, "Gagal update status", Toast.LENGTH_SHORT).show()
+                }
+            })
+    }
+    private fun eksekusiUbahStatusPesanan(orderId: String?, statusBaru: String) {
+        if (orderId == null) return
+        val token = SessionManager(this).fetchAuthToken() ?: return
+
+        // 1. Bungkus status baru ("diproses" / "selesai") ke dalam objek StatusRequest
+        val requestBody = StatusRequest(status = statusBaru)
+
+        // 2. Tembak endpoint update status kasir di Laravel
+        // 💡 Catatan: Sesuaikan '.updateOrderStatus' dengan nama fungsi @PUT Kasir di ApiService-mu ya Koh!
+        ApiConfig.getApiService().updateOrderStatus("Bearer $token", orderId, requestBody)
+            .enqueue(object : retrofit2.Callback<GeneralResponse> {
+                override fun onResponse(call: retrofit2.Call<GeneralResponse>, response: retrofit2.Response<GeneralResponse>) {
+                    if (response.isSuccessful) {
+                        android.widget.Toast.makeText(
+                            this@DashboardKasir,
+                            "Berhasil diperbarui jadi ${statusBaru.uppercase()}!",
+                            android.widget.Toast.LENGTH_SHORT
+                        ).show()
+
+                        // 🟢 REFRESH: Ambil ulang data dari Laravel biar list di layar otomatis ter-update
+                        fetchOrdersFromLaravel()
+                    } else {
+                        android.widget.Toast.makeText(this@DashboardKasir, "Gagal mengubah status: ${response.code()}", android.widget.Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: retrofit2.Call<GeneralResponse>, t: Throwable) {
+                    android.widget.Toast.makeText(this@DashboardKasir, "Error koneksi: ${t.message}", android.widget.Toast.LENGTH_SHORT).show()
                 }
             })
     }

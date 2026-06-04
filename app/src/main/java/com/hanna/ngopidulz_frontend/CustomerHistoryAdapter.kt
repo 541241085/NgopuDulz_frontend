@@ -10,7 +10,8 @@ import java.text.NumberFormat
 import java.util.Locale
 
 class CustomerHistoryAdapter(
-    private var orderList: List<CashierOrder>
+    private var orderList: List<CashierOrder>,
+    private val onItemClick: (CashierOrder) -> Unit // 👈 TAMBAHKAN INI
 ) : RecyclerView.Adapter<CustomerHistoryAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -31,29 +32,35 @@ class CustomerHistoryAdapter(
         val safeId = order.id ?: "00000"
         holder.tvId.text = "#${safeId.takeLast(5).uppercase()}"
 
+        // Nampilin ringkasan item di card luar
         val itemsText = order.items?.joinToString("\n") { "${it.qty}x ${it.product?.name}" }
         holder.tvProducts.text = itemsText ?: "Item tidak diketahui"
 
         val formatRp = NumberFormat.getCurrencyInstance(Locale("id", "ID"))
         holder.tvPrice.text = formatRp.format(order.totalPrice).replace(",00", "")
 
-        // 🔥 PEWARNAAN BADGE STATUS SINKRON DENGAN KASIR 🔥
+        // Pewarnaan Badge Status
         when (order.status.lowercase()) {
             "pending" -> {
                 holder.tvStatus.text = "ANTRIAN"
-                holder.tvStatus.setTextColor(Color.parseColor("#E5A93C")) // Kuning Emas
+                holder.tvStatus.setTextColor(Color.parseColor("#E5A93C"))
                 holder.tvStatus.setBackgroundColor(Color.parseColor("#2E2516"))
             }
             "diproses" -> {
                 holder.tvStatus.text = "DIPROSES"
-                holder.tvStatus.setTextColor(Color.parseColor("#42A5F5")) // Biru
+                holder.tvStatus.setTextColor(Color.parseColor("#42A5F5"))
                 holder.tvStatus.setBackgroundColor(Color.parseColor("#162335"))
             }
             "selesai" -> {
                 holder.tvStatus.text = "SELESAI"
-                holder.tvStatus.setTextColor(Color.parseColor("#4CAF50")) // Hijau
+                holder.tvStatus.setTextColor(Color.parseColor("#4CAF50"))
                 holder.tvStatus.setBackgroundColor(Color.parseColor("#142A16"))
             }
+        }
+
+        // 🔥 LOGIKA KETIKA CARD DIKLIK 🔥
+        holder.itemView.setOnClickListener {
+            onItemClick(order)
         }
     }
 

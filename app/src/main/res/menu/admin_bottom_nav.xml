@@ -1,17 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- Cari file XML menumu lalu pastikan isinya ada 4 item seperti ini -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
         android:id="@+id/nav_dashboard"
-        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:icon="@android:drawable/ic_dialog_info"
         android:title="Dashboard" />
+
+    <!-- 👇 SEPAKATKAN ID INI DENGAN KOTLIN KITA 👇 -->
+    <item
+        android:id="@+id/nav_products"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="Produk" />
 
     <item
         android:id="@+id/nav_users"
-        android:icon="@android:drawable/ic_menu_myplaces"
-        android:title="List Akun" />
+        android:icon="@android:drawable/ic_menu_my_calendar"
+        android:title="Akun" />
 
     <item
         android:id="@+id/nav_profile"
-        android:icon="@android:drawable/ic_menu_info_details"
+        android:icon="@android:drawable/ic_menu_preferences"
         android:title="Profil" />
 </menu>

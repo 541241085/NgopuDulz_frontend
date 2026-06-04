@@ -1,6 +1,7 @@
 package com.hanna.ngopidulz_frontend
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
@@ -32,9 +33,25 @@ class PaymentActivity : AppCompatActivity() {
 
             // Biar webnya gak loncat ke browser Chrome, tapi tetep di dalam aplikasi
             webView.webViewClient = object : WebViewClient() {
-                @Deprecated("Deprecated in Java")
-                override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-                    return false
+                // 🔥 GUNAKAN ONPAGESTARTED BIAR LEBIH SENSITIF 🔥
+                override fun onPageStarted(view: WebView?, url: String?, favicon: android.graphics.Bitmap?) {
+                    super.onPageStarted(view, url, favicon)
+                    val currentUrl = url ?: ""
+
+                    // Deteksi jika URL mengandung kata kunci sukses dari Midtrans
+                    if (currentUrl.contains("finish") || currentUrl.contains("success") || currentUrl.contains("unfinish") || currentUrl.contains("status_code=200")) {
+
+                        Toast.makeText(this@PaymentActivity, "Transaksi Diproses, Kembali ke Menu!", Toast.LENGTH_SHORT).show()
+
+                        // Lempar langsung ke halaman Utama / Menu Customer
+                        val intent = Intent(
+                            this@PaymentActivity,
+                            MainActivity::class.java
+                        ) // Sesuaikan dengan nama Activity Menu-mu
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK // Bersihkan riwayat back
+                        startActivity(intent)
+                        finish()
+                    }
                 }
             }
 

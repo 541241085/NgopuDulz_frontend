@@ -45,34 +45,46 @@ class MasukActivity : AppCompatActivity() {
 
             // Tembak API Laravel
             ApiConfig.getApiService().loginUser(email, password).enqueue(object : Callback<LoginResponse> {
+                // Cari bagian ini di dalam Callback<LoginResponse> di MasukActivity-mu:
                 override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                     if (response.isSuccessful && response.body() != null) {
-                        val token = response.body()?.token
-                        val role = response.body()?.user?.role ?: "customer"
+                        val token = response.body()!!.token ?: ""
 
-                        if (token != null) {
-                            // 1. Simpan Token & Role ke Memori
-                            sessionManager.saveAuthToken(token)
-                            sessionManager.saveRole(role)
+                        // 👇 2. PASTIKAN SEBELUM KATA 'MasukActivity)' ADA PEMANGGILAN SESSION MANAGER-NYA 👇
+                        SessionManager(this@MasukActivity).saveAuthToken(token)
 
-                            Toast.makeText(this@MasukActivity, "Login Berhasil sebagai: $role", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@MasukActivity, "Selamat Datang di NgopuDulz!", Toast.LENGTH_SHORT).show()
 
-                            // 2. Logika Pindah Halaman
-                            val intent = when (role.lowercase()) {
-                                "admin" -> Intent(this@MasukActivity, AdminDashboardActivity::class.java)
-                                "kasir" -> Intent(this@MasukActivity, DashboardKasir::class.java)
-                                else -> Intent(this@MasukActivity, MainActivity::class.java)
-                            }
-                            startActivity(intent)
-                            finish()
-                        } else {
-                            // JALUR JIKA LARAVEL SUKSES TAPI TOKEN KOSONG
-                            Toast.makeText(this@MasukActivity, "Aneh, respon 200 OK tapi Token Kosong!", Toast.LENGTH_LONG).show()
-                        }
                     } else {
-                        // 🔥 INI PENYELAMATNYA: NAMPILIN ERROR DARI LARAVEL 🔥
-                        val errorCode = response.code()
-                        Toast.makeText(this@MasukActivity, "Gagal Login! Kode Error: $errorCode", Toast.LENGTH_LONG).show()
+                        // 👇 REVOLUSI BLOK ELSE DENGAN LOGIKA DETEKSI SUSPEND DI SINI KOH 👇
+                        val kodeError = response.code()
+
+                        when (kodeError) {
+                            403 -> {
+                                // 🛑 JIKA TERDETEKSI KODE 403 (SUSPENDED)
+                                Toast.makeText(
+                                    this@MasukActivity,
+                                    "Akun Anda telah di-suspend! ⚠️ Silakan hubungi Admin.",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                            401 -> {
+                                // ❌ JIKA SALAH EMAIL / PASSWORD
+                                Toast.makeText(
+                                    this@MasukActivity,
+                                    "Email atau password yang Anda masukkan salah, Koh!",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            else -> {
+                                // 🚨 JIKA ADA ERROR LAINNYA
+                                Toast.makeText(
+                                    this@MasukActivity,
+                                    "Gagal masuk ke sistem: Kode $kodeError",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
                     }
                 }
 

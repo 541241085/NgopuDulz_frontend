@@ -56,12 +56,12 @@
                 android:text="Daftar Kopi" />
 
             <TextView
-                android:id="@+id/tv_payment_status"
+                android:id="@+id/tv_status_pesanan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Lunas"
-                android:textColor="#4CAF50"
-                android:textSize="12sp"
+                android:text="Status Pesanan: PENDING"
+                android:textColor="#E5A93C"
+                android:textSize="13sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
