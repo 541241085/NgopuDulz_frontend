@@ -15,8 +15,7 @@ class MasukActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Hubungkan dengan file XML desain temanmu
-        setContentView(R.layout.activity_masuk) // Pastikan nama file XML-nya benar
+        setContentView(R.layout.activity_masuk)
 
         // Kenalkan elemen UI ke Kotlin
         val etEmail = findViewById<EditText>(R.id.et_email)
@@ -45,23 +44,38 @@ class MasukActivity : AppCompatActivity() {
 
             // Tembak API Laravel
             ApiConfig.getApiService().loginUser(email, password).enqueue(object : Callback<LoginResponse> {
-                // Cari bagian ini di dalam Callback<LoginResponse> di MasukActivity-mu:
                 override fun onResponse(call: Call<LoginResponse>, response: Response<LoginResponse>) {
                     if (response.isSuccessful && response.body() != null) {
-                        val token = response.body()!!.token ?: ""
+                        val token = response.body()?.token
 
-                        // 👇 2. PASTIKAN SEBELUM KATA 'MasukActivity)' ADA PEMANGGILAN SESSION MANAGER-NYA 👇
-                        SessionManager(this@MasukActivity).saveAuthToken(token)
+                        // ✨ Ini struktur role milikmu yang sudah 100% BENAR & AKURAT Koh! ✨
+                        val role = response.body()?.user?.role ?: "customer"
 
-                        Toast.makeText(this@MasukActivity, "Selamat Datang di NgopuDulz!", Toast.LENGTH_SHORT).show()
+                        if (token != null) {
+                            // 1. Simpan Token & Role ke Memori
+                            sessionManager.saveAuthToken(token)
+                            sessionManager.saveRole(role)
 
+                            Toast.makeText(this@MasukActivity, "Login Berhasil sebagai: ${role.uppercase()}", Toast.LENGTH_SHORT).show()
+
+                            // 2. Logika Pindah Halaman Dinamis Sesuai Role Rumahnya Masing-masing
+                            val intent = when (role.lowercase()) {
+                                "admin" -> Intent(this@MasukActivity, AdminDashboardActivity::class.java)
+                                "kasir", "cashier" -> Intent(this@MasukActivity, DashboardKasir::class.java)
+                                else -> Intent(this@MasukActivity, MainActivity::class.java)
+                            }
+                            startActivity(intent)
+                            finish()
+                        } else {
+                            Toast.makeText(this@MasukActivity, "Aneh, respon 200 OK tapi Token Kosong!", Toast.LENGTH_LONG).show()
+                        }
                     } else {
-                        // 👇 REVOLUSI BLOK ELSE DENGAN LOGIKA DETEKSI SUSPEND DI SINI KOH 👇
-                        val kodeError = response.code()
+                        // 🔥 👇 REVOLUSI BLOK PENYELAMAT: DETEKSI AKUN SUSPEND DENGAN MANUSIAWI 👇 🔥
+                        val errorCode = response.code()
 
-                        when (kodeError) {
+                        when (errorCode) {
                             403 -> {
-                                // 🛑 JIKA TERDETEKSI KODE 403 (SUSPENDED)
+                                // 🛑 JIKA KODE 403 DARI LARAVEL (USER DI-SUSPEND)
                                 Toast.makeText(
                                     this@MasukActivity,
                                     "Akun Anda telah di-suspend! ⚠️ Silakan hubungi Admin.",
@@ -69,7 +83,7 @@ class MasukActivity : AppCompatActivity() {
                                 ).show()
                             }
                             401 -> {
-                                // ❌ JIKA SALAH EMAIL / PASSWORD
+                                // ❌ JIKA KODE 401 (SALAH EMAIL/PASSWORD)
                                 Toast.makeText(
                                     this@MasukActivity,
                                     "Email atau password yang Anda masukkan salah, Koh!",
@@ -77,11 +91,11 @@ class MasukActivity : AppCompatActivity() {
                                 ).show()
                             }
                             else -> {
-                                // 🚨 JIKA ADA ERROR LAINNYA
+                                // 🚨 JIKA TERJADI ERROR DILUAR DUGAAN LAINNYA
                                 Toast.makeText(
                                     this@MasukActivity,
-                                    "Gagal masuk ke sistem: Kode $kodeError",
-                                    Toast.LENGTH_SHORT
+                                    "Gagal Login! Kode Error: $errorCode",
+                                    Toast.LENGTH_LONG
                                 ).show()
                             }
                         }
@@ -93,6 +107,5 @@ class MasukActivity : AppCompatActivity() {
                 }
             })
         }
-
     }
 }
