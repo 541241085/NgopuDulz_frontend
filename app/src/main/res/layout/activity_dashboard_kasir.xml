@@ -87,25 +87,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-        <Button
-            android:id="@+id/btn_laporan"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:text="LAPORAN"
-            android:backgroundTint="#607D8B"
-            android:layout_marginEnd="8dp"/>
-
-        <Button
-            android:id="@+id/btn_tambah"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_weight="2"
-            android:text="+ PESANAN BARU"
-            android:backgroundTint="#000000"/>
-    </LinearLayout>
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
